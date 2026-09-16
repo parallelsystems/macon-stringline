@@ -45,8 +45,9 @@ change what produces it — the departure anchor, a segment speed, or a dwell.
   (L781's, the second to arrive) — see the data file.
 - **Built-in views** live in `data/presets.js` (`builtIn: true`, same snapshot
   shape as `lib/views.js`). Read-only in the roster; App merges them ahead of
-  the planner's own. "Feedback" (Sep 2026) is the G&W Collins finding laid
-  under Ethan's 22:00 two-vehicle idea. Fleet PATTERNS are not views: they
+  the planner's own. The list is EMPTY: a "Feedback" view (the G&W Collins
+  finding under Ethan's 22:00 two-vehicle idea) shipped briefly on Sep 15 2026
+  and the user had it removed — don't re-add it. Fleet PATTERNS are not views: they
   live in `PS_PATTERNS` (network.js) and are picked in the Parallel panel
   (`applyPattern()` rewrites the seed units; `units` says which are in the
   plan). The user asked for patterns as a selector, explicitly NOT as saved

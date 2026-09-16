@@ -84,14 +84,9 @@ flag (it arrives second; the assumption is noted in the data file). Consequence:
 Night plan of record now shows three meets at Collins every night, which is the
 point — it is to be revisited after the September site visit.
 
-**Built-in views** — views that ship with the app appear at the top of the Views
-list marked *built-in*, for everyone who opens the site (a planner's own views stay
-in their browser). They load like any view and can be saved as a copy, never
-overwritten. **Feedback**
-lays Ethan's 9 Sep two-vehicle night idea (Pooler and
-Macon at 22:00, meet and charge at Vidalia, at destination ~07:00) over G&W's
-traffic with the Collins stand shown: both vehicles have to pass Collins inside the
-blocked window (00:00 westbound, 04:48 eastbound), which is Joe Underwood's reply.
+**Built-in views** — the app can ship views that appear at the top of the Views list
+marked *built-in*, for everyone who opens the site; none ship at the moment. A planner's
+own views stay in their browser.
 
 **Fleet patterns** — the *Pattern* selector at the top of the Parallel vehicles panel
 is the one place to choose how the vehicles run. Each pattern rewrites the seed units'
@@ -141,7 +136,7 @@ tolerance band), and reset.
 ```
 src/
   data/network.js        Stations, mileage, yard limits, job types, seed plan
-  data/presets.js        Built-in views shipped with the app (Feedback)
+  data/presets.js        Built-in views shipped with the app (none at present)
   lib/schedule.js        Pure computation: times, restrictions, meet detection
   components/
     Stringline.jsx       SVG diagram, drag-to-retime
@@ -165,7 +160,7 @@ dwell as two points, round trips, the contiguous seed trains (Collins stand, L78
 leg and tolerance edge, the main-track flag), the G&W baseline being meet-free and
 the Night pattern's meets being exactly the Collins stand, meet detection with
 in-the-hole passes, tolerance geometry (band, quads, possible meets, ribbons
-occupying the slot scan), the built-in Feedback view, slot-window shape, and the
+occupying the slot scan), built-in views, slot-window shape, and the
 TSV export. `test/views.test.mjs`
 covers saved-view snapshots, dirty-checking, and storage round-trips including
 corrupt data. All pure — no DOM, no React, runs in well under a second.

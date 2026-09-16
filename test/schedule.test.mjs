@@ -370,24 +370,11 @@ test("fleet patterns: two / oneLayover / oneFast are clean of every G&W train al
   assert.deepEqual(applyPattern(SEED_TRIPS, "night"), SEED_TRIPS);
 });
 
-test("built-in Feedback view: valid snapshot, both of Ethan's 22:00 vehicles hit the blocked Collins main, and they meet at Vidalia", () => {
-  const fb = PRESET_VIEWS.find((v) => v.name === "Feedback");
-  assert.ok(fb?.builtIn);
-  // same shape a stored view has — loadViews accepts it
+test("built-in views: every preset (if any) is a valid, loadable snapshot", () => {
   const mem = new Map();
   storeViews(PRESET_VIEWS, { getItem: (k) => mem.get(k) ?? null, setItem: (k, v) => mem.set(k, v) });
   assert.equal(loadViews({ getItem: (k) => mem.get(k) ?? null }).length, PRESET_VIEWS.length);
-  const vis = fb.snap.trips.filter((t) => !fb.snap.hidden.includes(t.id));
-  assert.ok(!vis.some((t) => t.symbol === "PS3"));
-  const meets = findMeets(vis, fb.snap.day, fb.snap.restrictions);
-  const atCollins = meets.filter((m) => m.a === "L781" && m.mile === ST("collins").mile);
-  assert.deepEqual(atCollins.map((m) => m.b).sort(), ["PS2", "PS5"]);
-  // westbound PS5 is stopped at Collins right at midnight; eastbound PS2 ~04:48
-  assert.equal(fmt(atCollins.find((m) => m.b === "PS5").t), "00:00");
-  assert.ok(Math.abs(atCollins.find((m) => m.b === "PS2").t - (4 * 60 + 48)) <= 2);
-  // the two vehicles pass each other in Vidalia yard, not on the road
-  assert.equal(meets.filter((m) => /^PS/.test(m.a) && /^PS/.test(m.b)).length, 0);
-  assert.equal(meets.length, 2);
+  for (const v of PRESET_VIEWS) assert.ok(v.builtIn && Array.isArray(v.snap.trips));
 });
 
 test("findOpenWindows treats a tolerance ribbon as occupied", () => {

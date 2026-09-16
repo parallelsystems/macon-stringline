@@ -570,8 +570,7 @@ export const PS_SCHEDULES = {
   // trains (23:33-06:30, waiting for the L781R / L782R day crews). The
   // eastbound parade reaches Collins 04:53 / 05:33 / 06:03 — inside that
   // window — so the planner now shows three meets at Collins every night.
-  // The plan of record is to be revisited after the Sep 2026 site visit;
-  // see the built-in "Feedback" view (data/presets.js).
+  // The plan of record is to be revisited after the Sep 2026 site visit.
   night: { times: { t11: 1325, t12: 1365, t13: 1395 }, vidaliaDwell: 75, cycleWin: [1280, 2760] },
 };
 
