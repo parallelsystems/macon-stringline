@@ -175,7 +175,8 @@ export default function Stringline({
         const sp = stringPts(computeTrip(t, ld, restrictions)).map((p) => ({ ...p, t: p.t + off }));
         if (sp.length < 2) continue;
         if (tailOnly && sp[sp.length - 1].t <= 0) continue;
-        const lp = sp.find((p) => p.t >= win[0]) ?? sp[0];
+        const lpIdx = Math.max(0, sp.findIndex((p) => p.t >= win[0]));
+        const lp = sp[lpIdx];
         const key = `${t.id}@${off}`;
         want.push({
           key,
@@ -185,8 +186,10 @@ export default function Stringline({
           w: (lp.sym || t.symbol).length * 7 + 6,
         });
         // a crew change en route (Y120 → L782R at Collins) labels the new
-        // symbol where it takes over, so each leg reads under its own name
-        for (let i = 1; i < sp.length; i++) {
+        // symbol where it takes over, so each leg reads under its own name.
+        // Only AFTER the first visible point: when the window opens past the
+        // change (yesterday's train, already L782R), the start label has it.
+        for (let i = lpIdx + 1; i < sp.length; i++) {
           if (sp[i].sym === sp[i - 1].sym || sp[i].t < win[0] || sp[i].t > win[1]) continue;
           want.push({ key, text: sp[i].sym, x: X(sp[i].t) + 7, y: Math.max(Y(sp[i].mile) - 8, MG.t + 13), w: sp[i].sym.length * 7 + 6 });
         }
@@ -201,6 +204,42 @@ export default function Stringline({
       while (guard++ < 8 && placed.some((p) => l.x < p.x + p.w && p.x < l.x + l.w && Math.abs(y - p.y) < 12)) y += 12;
       placed.push({ ...l, y });
       (out[l.key] ||= []).push({ x: l.x, y, text: l.text });
+    }
+    return out;
+  })();
+
+  // Exit annotations ("→ Macon 16:50 +2 days") for runs that leave the
+  // window's right edge, de-collided: two trains exiting at nearly the same
+  // mile (L781 to Pooler and Y120 to Macon both leave near Collins) would
+  // otherwise overprint; the later one steps down a row.
+  const exitPlan = (() => {
+    const want = [];
+    for (const { day: ld, off, tailOnly } of layers) {
+      for (const t of trips) {
+        if (!t.days.includes(ld) || !TYPES[t.type].moves) continue;
+        const sp = stringPts(computeTrip(t, ld, restrictions)).map((p) => ({ ...p, t: p.t + off }));
+        if (sp.length < 2 || (tailOnly && sp[sp.length - 1].t <= 0)) continue;
+        const endT = sp[sp.length - 1].t;
+        if (endT <= win[1]) continue;
+        let exitMile = null;
+        for (let i = 0; i < sp.length - 1; i++) {
+          if (sp[i].t <= win[1] && sp[i + 1].t > win[1]) {
+            const f = (win[1] - sp[i].t) / (sp[i + 1].t - sp[i].t);
+            exitMile = sp[i].mile + f * (sp[i + 1].mile - sp[i].mile);
+            break;
+          }
+        }
+        if (exitMile == null) continue;
+        want.push({ key: `${t.id}@${off}`, y: Y(exitMile) - 7 });
+      }
+    }
+    want.sort((a, b) => a.y - b.y);
+    const out = {};
+    let lastY = -Infinity;
+    for (const w of want) {
+      const y = Math.max(w.y, lastY + 11);
+      out[w.key] = y;
+      lastY = y;
     }
     return out;
   })();
@@ -665,20 +704,12 @@ export default function Stringline({
                   gets there ("+1" = after midnight, next calendar day) */}
               {(() => {
                 const endT = sp[sp.length - 1].t;
-                if (endT <= win[1]) return null;
-                let exitMile = null;
-                for (let i = 0; i < sp.length - 1; i++) {
-                  if (sp[i].t <= win[1] && sp[i + 1].t > win[1]) {
-                    const f = (win[1] - sp[i].t) / (sp[i + 1].t - sp[i].t);
-                    exitMile = sp[i].mile + f * (sp[i + 1].mile - sp[i].mile);
-                    break;
-                  }
-                }
-                if (exitMile == null) return null;
+                const ey = exitPlan[`${t.id}@${off}`];
+                if (endT <= win[1] || ey == null) return null;
                 return (
                   <text
                     x={MG.l + PW - 5}
-                    y={Y(exitMile) - 7}
+                    y={ey}
                     textAnchor="end"
                     fontSize={9.5}
                     fontWeight={700}
