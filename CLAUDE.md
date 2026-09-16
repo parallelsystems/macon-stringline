@@ -126,7 +126,8 @@ Savannah-sub series.
 - Track speeds, yard limits, and the station roster (`SPEED_LIMITS` /
   `YARD_LIMITS` / `STATIONS` in network.js) are from **GC General Order #3
   (eff. June 20 2026) and the GCLP Timetable #4 template (Savannah Sub)** —
-  both in `docs/`, the operative sources of truth, formally revising
+  both kept OUTSIDE the repo in the parent folder's `docs/` (moved out Sep 15
+  2026 to keep the repo to source), the operative sources of truth, formally revising
   Timetable #3 (2016). The ETT remains the anchor for mileposts/chainage
   only. Notable deltas from 2016: Macon MP 6–49 upgraded 10→25 mph, 20 mph
   tiers at Macon MP 2–6 and Savannah MP 504–521.5 (official maximum speeds,
@@ -231,8 +232,12 @@ explicitly and it's worth keeping deliberate.
   imports them; the app uses only `parallel-logo-black.svg`. They are
   git-ignored and excluded from the source bundle. The Timetable #3 proof PDF
   stays — it is the anchor for the mileage model above.
-- `docs/` holds the operative sources (GO#3, TT#4 templates, drive-cycle
-  workbooks). Read-only inputs; the app does not load them at runtime.
+- The operative railroad documents (GO#3, TT#4 templates, drive-cycle
+  workbooks) and the June 2026 G&W deck (`Parallel Systems Presentation.pdf`)
+  live in the PARENT folder ("Macon Revenue Service Stringline/docs" and
+  alongside it), not in the repo — moved out Sep 15 2026. Read-only inputs
+  the data file cites; the app never loads them. Only the Timetable #3 proof
+  PDF stays in `src/assets/brand/` as the anchor for the mileage model.
 - `dist/` is a build product. `gc-planner-site.zip` is the Netlify drag-and-drop
   bundle and must be regenerated after every build (`npm run build`, then zip
   `dist/`).
