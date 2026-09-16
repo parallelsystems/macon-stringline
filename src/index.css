@@ -1,0 +1,21 @@
+@import "tailwindcss";
+
+/* Parallel brand tokens — values mirror BRAND.colors in src/theme.js. */
+@theme {
+  --color-brand: #151515; /* Parallel Black */
+  --color-brand-soft: #333333; /* Parallel Gray B — hover on brand surfaces */
+  --color-brand-paper: #e6e6e6; /* Parallel Light Gray D — page background */
+  --color-accent: #fa5543; /* Parallel Red */
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: #e6e6e6;
+  -webkit-font-smoothing: antialiased;
+}

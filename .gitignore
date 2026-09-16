@@ -1,0 +1,15 @@
+node_modules
+dist
+.DS_Store
+*.local
+.vite
+
+# reference material, not source (see CLAUDE.md "Repository hygiene")
+src/assets/brand/Branding Assets/
+src/assets/brand/Parallel Brand Guidelines*.pdf
+# build / deploy artifacts and local clutter
+*.zip
+Screenshot*.png
+docs/~$*
+# local Claude Code permissions, not source
+.claude/
