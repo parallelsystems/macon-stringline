@@ -96,8 +96,9 @@ change what produces it — the departure anchor, a segment speed, or a dwell.
 ## The mileage caveat — don't "fix" this wrong
 
 `STATIONS[].mile` is **chainage from Macon**, not the printed milepost. The line
-carries two milepost series, anchored to GC Timetable #3 (2016, the proof PDF in
-`src/assets/brand/`): Macon Sub MP 0.0→92.3 increasing eastward, Savannah Sub
+carries two milepost series, anchored to GC Timetable #3 (2016; the proof PDF is
+kept with the other documents in the parent folder, not in the repo): Macon Sub
+MP 0.0→92.3 increasing eastward, Savannah Sub
 MP 577.8→499.0 *decreasing* eastward, meeting at Vidalia (Macon 92.3 = Savannah
 577.8). Conversion: Savannah-sub chainage = `92.3 + (577.8 − MP)`, which puts
 Savannah at 171.1 — matching G&W's published 171. If someone "corrects" `mile` to
@@ -230,14 +231,14 @@ explicitly and it's worth keeping deliberate.
 - `src/assets/brand/Branding Assets/` (~1.4 GB of video, fonts, banners) and
   the 90 MB brand-guidelines PDF are **reference material, not source**. Nothing
   imports them; the app uses only `parallel-logo-black.svg`. They are
-  git-ignored and excluded from the source bundle. The Timetable #3 proof PDF
-  stays — it is the anchor for the mileage model above.
+  git-ignored. Nothing else ships in `src/assets/brand/` but the logo.
 - The operative railroad documents (GO#3, TT#4 templates, drive-cycle
   workbooks) and the June 2026 G&W deck (`Parallel Systems Presentation.pdf`)
   live in the PARENT folder ("Macon Revenue Service Stringline/docs" and
   alongside it), not in the repo — moved out Sep 15 2026. Read-only inputs
-  the data file cites; the app never loads them. Only the Timetable #3 proof
-  PDF stays in `src/assets/brand/` as the anchor for the mileage model.
+  the data file cites, including the Timetable #3 proof PDF that anchors the
+  mileage model; the app never loads any of them. `src/assets/brand/` keeps
+  only the logo SVG the masthead imports.
 - `dist/` is a build product. `gc-planner-site.zip` is the Netlify drag-and-drop
   bundle and must be regenerated after every build (`npm run build`, then zip
   `dist/`).

@@ -177,7 +177,7 @@ material only (about 1.5 GB); nothing imports them and they are excluded from th
 source bundle and `.gitignore`d. The operative railroad documents the data file cites
 (General Order #3, the Timetable #4 templates, the drive-cycle workbooks, and the June
 2026 G&W deck) are kept outside the repository, in the parent folder; the app never
-loads them. Only the Timetable #3 proof PDF ships, as the anchor for the mileage model.
+loads them; that includes the Timetable #3 proof PDF that anchors the mileage model.
 `dist/` is the build; `gc-planner-site.zip` is the Netlify drag-and-drop bundle,
 regenerated after each build.
 

@@ -7,7 +7,7 @@
  * DISTANCE MODEL — read this before trusting a slope.
  *
  * Anchored to Georgia Central Railway TIMETABLE #3 (eff. 2016-09-15), the
- * proof PDF in src/assets/brand/. The territory carries two milepost series:
+ * proof PDF, kept with the reference documents outside the repo. The territory carries two milepost series:
  *
  *   Macon Sub    (increasing eastward):  Macon MP 0.0 -> Vidalia MP 92.3
  *   Savannah Sub (DECREASING eastward):  Vidalia MP 577.8 -> Savannah MP 499.0
